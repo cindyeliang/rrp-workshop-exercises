@@ -17,19 +17,31 @@ fastq_dest="../data/raw/fastq/SRP255885/${study_id}"
 # Create raw file directory for FASTQs if it doesn't already exist
 mkdir -p $fastq_dest
 
-# Download files
-curl -O ${fastq_url}/${fastq_r1}
-curl -O ${fastq_url}/${fastq_r2}
+# Only download files if they don't exist
+if [ ! -e "${fastq_dest}/${fastq_r1}" ]; then
 
-# Move file to destination directory
-mv $fastq_r1 $fastq_dest
-mv $fastq_r2 $fastq_dest
+    # Download files
+    curl -O ${fastq_url}/${fastq_r1}
+    # Move file to destination directiory
+    mv $fastq_r1 $fastq_dest
+
+fi
 
 # Count lines in files
-# echo "The number of lines in SRR11518889_1.fastq.gz is:"
+echo "The number of lines in SRR11518889_1.fastq.gz is:"
 
 # decompress files and output into stdout
-# gunzip -c ${fastq_dest}/${fastq_r1} | wc -l
+gunzip -c ${fastq_dest}/${fastq_r1} | wc -l
+
+if [ ! -e "${fastq_dest}/${fastq_r2}" ]; then
+
+    # Download files
+    curl -O ${fastq_url}/${fastq_r2}
+
+    # Move file to destination directory
+    mv $fastq_r2 $fastq_dest
+
+fi
 
 echo "The number of lines in SRR11518889_2.fastq.gz is:"
 gunzip -c ${fastq_dest}/SRR11518889_2.fastq.gz | wc -l
