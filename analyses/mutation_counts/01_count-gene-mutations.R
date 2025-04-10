@@ -3,7 +3,7 @@
 # Count the number of samples mutated for each gene in a MAF file.
 
 # This script reads in a MAF file and writes out a table of the genes with
-# mutations. The table includes the number of samples that have at least one 
+# mutations. The table includes the number of samples that have at least one
 # mutation in the gene, as well as the total number of mutations detected across
 # all samples.
 
@@ -47,7 +47,7 @@ option_list <- list(
     opt_str = c("--vaf", "-v"),
     type = "numeric",
     default = 0.05,
-    help = "Minimum variant allele fraction to include (default 0.05)"
+    help = "Minimum variant allele fraction to include (default: %default)"
   ),
   make_option(
     opt_str = c("--min_depth", "-d"),
@@ -67,13 +67,13 @@ option_list <- list(
 opts <- parse_args(OptionParser(option_list = option_list))
 
 
-# Input and option checks --------------------------------- 
+# Input and option checks ---------------------------------
 
-# Check that the specified input files are present; 
+# Check that the specified input files are present;
 # exit with error if not using `stop()`
-if(!file.exists(opts$maf)){
-  stop("The specified MAF file does not exist.")
-}
+stopifnot(
+  "The specified MAF file does not exist." = file.exists(opts$maf),
+)
 
 
 # Define constants --------------------------------------
@@ -147,6 +147,6 @@ gene_counts <- sample_gene_counts |>
   # Sort genes by sample count, then total (descending)
   dplyr::arrange(desc(mutated_samples), desc(total_muts))
 
-  
+
 # Write output
 readr::write_tsv(gene_counts, file = opts$outfile)
