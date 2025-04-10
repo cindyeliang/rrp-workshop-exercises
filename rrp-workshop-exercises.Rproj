@@ -1,4 +1,5 @@
 Version: 1.0
+ProjectId: 1c233aa6-daa6-40d3-975f-dfdcc2d60e39
 
 RestoreWorkspace: No
 SaveWorkspace: No
@@ -13,6 +14,7 @@ RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
 AutoAppendNewline: Yes
+StripTrailingWhitespace: Yes
 LineEndingConversion: Posix
 
 MarkdownWrap: Sentence

@@ -38,10 +38,20 @@ if [ ! -f "${fastq_dest}/${fastq_r2}" ]; then
 fi
 
 # Count lines in files
-# echo "The number of lines in SRR11518889_1.fastq.gz is:"
+echo "The number of lines in SRR11518889_1.fastq.gz is:"
 
 # decompress files and output into stdout
-# gunzip -c ${fastq_dest}/${fastq_r1} | wc -l
+gunzip -c ${fastq_dest}/${fastq_r1} | wc -l
+
+if [ ! -e "${fastq_dest}/${fastq_r2}" ]; then
+
+    # Download files
+    curl -O ${fastq_url}/${fastq_r2}
+
+    # Move file to destination directory
+    mv $fastq_r2 $fastq_dest
+
+fi
 
 echo "The number of lines in SRR11518889_2.fastq.gz is:"
 gunzip -c ${fastq_dest}/SRR11518889_2.fastq.gz | wc -l
